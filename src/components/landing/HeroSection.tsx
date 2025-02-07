@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import TableAnimation from "./TableAnimation";
+import { useNavigate } from "react-router-dom";
 
 interface HeroSectionProps {
   onJoinClick?: () => void;
@@ -10,10 +11,20 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({
-  onJoinClick = () => console.log("Join clicked"),
+  onJoinClick,
   title = "Connect Through Shared Meals",
   subtitle = "Join our community of food lovers and experience the joy of dining with new friends",
 }: HeroSectionProps) => {
+  const navigate = useNavigate();
+
+  const handleJoinClick = () => {
+    if (onJoinClick) {
+      onJoinClick();
+    } else {
+      navigate("/auth");
+    }
+  };
+
   return (
     <section className="min-h-screen bg-[#FFBF69] flex items-center justify-center px-4 py-16 pattern-plus-lg pattern-[#FF9F1C] pattern-bg-transparent pattern-opacity-20 pattern-size-8">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
@@ -31,7 +42,7 @@ const HeroSection = ({
           </p>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
-              onClick={onJoinClick}
+              onClick={handleJoinClick}
               className="bg-[#E71D36] hover:bg-[#FF5C5C] text-white text-lg px-8 py-6 rounded-none border-4 border-[#2D3047] shadow-[8px_8px_0px_0px_rgba(45,48,71,1)] transition-all hover:shadow-[4px_4px_0px_0px_rgba(45,48,71,1)] hover:-translate-x-1 hover:-translate-y-1"
             >
               Join a Table
