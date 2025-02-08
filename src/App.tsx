@@ -5,6 +5,7 @@ import routes from "tempo-routes";
 
 const AuthPage = React.lazy(() => import("./pages/auth"));
 const SignupPage = React.lazy(() => import("./pages/signup"));
+const LoginPage = React.lazy(() => import("./pages/login"));
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
       </>
