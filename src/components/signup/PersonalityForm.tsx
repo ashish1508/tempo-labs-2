@@ -3,73 +3,88 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 interface PersonalityFormProps {
-  onNext: (selection: string) => void;
+  onNext: (selection: number) => void;
 }
 
 const PersonalityForm = ({ onNext }: PersonalityFormProps) => {
-  const [selected, setSelected] = React.useState<string>("");
+  const [selected, setSelected] = React.useState<number | null>(null);
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4">
+    <div className="w-full max-w-2xl mx-auto px-4 bg-[#FFEDD5] min-h-screen flex flex-col">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        className="py-8"
       >
-        <Button
-          variant="ghost"
-          onClick={() => window.history.back()}
-          className="mb-8 text-[#2D3047] hover:text-[#2D3047]/70"
-        >
-          ← Back
-        </Button>
+        {/* Header with back button and title */}
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            variant="ghost"
+            onClick={() => window.history.back()}
+            className="text-[#2D3047]"
+          >
+            ←
+          </Button>
+          <h2 className="text-xl font-mono text-[#2D3047]">PERSONALITY</h2>
+        </div>
 
-        <h2 className="text-2xl font-mono text-[#2D3047] mb-2">PERSONALITY</h2>
+        {/* Progress bar */}
+        <div className="w-full h-1 bg-[#2D3047] mb-12" />
 
+        {/* Question */}
         <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#2D3047] font-mono">
-            ARE YOUR <span className="italic">OPINIONS</span> USUALLY
-            <br />
-            GUIDED BY:
+          <h1 className="text-3xl md:text-4xl font-bold text-[#2D3047] font-mono">
+            I AM AN <span className="italic">INTROVERT</span> PERSON
           </h1>
         </div>
 
-        <div className="space-y-4">
-          <motion.button
-            onClick={() => setSelected("logic")}
-            className={`w-full p-6 border-4 border-[#2D3047] ${
-              selected === "logic"
-                ? "bg-[#2EC4B6] text-white"
-                : "bg-white hover:bg-[#2EC4B6]/10"
-            } 
-              transition-all duration-200 text-left text-xl font-medium
-              shadow-[4px_4px_0px_0px_rgba(45,48,71,1)]
-              hover:shadow-[8px_8px_0px_0px_rgba(45,48,71,1)]
-              hover:-translate-x-1 hover:-translate-y-1`}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Logic and facts
-          </motion.button>
+        {/* Rating scale */}
+        <div className="space-y-8">
+          <span className="text-[#2D3047] text-sm">Strongly Disagree</span>
 
-          <motion.button
-            onClick={() => setSelected("emotions")}
-            className={`w-full p-6 border-4 border-[#2D3047] ${
-              selected === "emotions"
-                ? "bg-[#2EC4B6] text-white"
-                : "bg-white hover:bg-[#2EC4B6]/10"
-            } 
-              transition-all duration-200 text-left text-xl font-medium
-              shadow-[4px_4px_0px_0px_rgba(45,48,71,1)]
-              hover:shadow-[8px_8px_0px_0px_rgba(45,48,71,1)]
-              hover:-translate-x-1 hover:-translate-y-1`}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Emotions and feelings
-          </motion.button>
+          <div className="grid grid-cols-5 gap-4">
+            {[1, 2, 3, 4, 5].map((number) => (
+              <motion.button
+                key={number}
+                onClick={() => setSelected(number)}
+                className={`aspect-square w-full border-2 border-[#2D3047] rounded-lg
+                  ${selected === number ? "bg-[#2D3047] text-white" : "bg-white"} 
+                  transition-all duration-200 text-xl font-mono
+                  hover:bg-[#2D3047] hover:text-white
+                  flex items-center justify-center`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {number}
+              </motion.button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-5 gap-4">
+            {[6, 7, 8, 9, 10].map((number) => (
+              <motion.button
+                key={number}
+                onClick={() => setSelected(number)}
+                className={`aspect-square w-full border-2 border-[#2D3047] rounded-lg
+                  ${selected === number ? "bg-[#2D3047] text-white" : "bg-white"} 
+                  transition-all duration-200 text-xl font-mono
+                  hover:bg-[#2D3047] hover:text-white
+                  flex items-center justify-center`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {number}
+              </motion.button>
+            ))}
+          </div>
+
+          <div className="flex justify-end">
+            <span className="text-[#2D3047] text-sm">Strongly Agree</span>
+          </div>
         </div>
 
+        {/* Continue button */}
         <motion.div
           className="mt-12"
           initial={{ opacity: 0 }}
@@ -79,12 +94,8 @@ const PersonalityForm = ({ onNext }: PersonalityFormProps) => {
           <Button
             onClick={() => selected && onNext(selected)}
             disabled={!selected}
-            className="w-full bg-[#E71D36] hover:bg-[#FF5C5C] text-white text-lg px-8 py-6 
-              rounded-none border-4 border-[#2D3047] 
-              shadow-[8px_8px_0px_0px_rgba(45,48,71,1)] 
-              transition-all 
-              hover:shadow-[4px_4px_0px_0px_rgba(45,48,71,1)] 
-              hover:-translate-x-1 hover:-translate-y-1"
+            className="w-full bg-[#2D3047] text-white text-lg py-6 
+              hover:bg-[#2D3047]/90 transition-all"
           >
             Continue
           </Button>
