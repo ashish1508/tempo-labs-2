@@ -5,6 +5,7 @@ import AreaSelect from "@/components/signup/AreaSelect";
 import PersonalInfoForm from "@/components/signup/PersonalInfoForm";
 import DiningDateSelect from "@/components/signup/DiningDateSelect";
 import DiningPreferences from "@/components/signup/DiningPreferences";
+import PricingPlans from "@/components/signup/PricingPlans";
 
 type Step =
   | "personality"
@@ -12,7 +13,8 @@ type Step =
   | "areas"
   | "personal"
   | "dates"
-  | "preferences";
+  | "preferences"
+  | "pricing";
 
 interface PersonalInfo {
   name: string;
@@ -28,6 +30,11 @@ interface DiningPreferences {
   dietaryPreferences: string;
 }
 
+interface PricingSelection {
+  type: "subscription" | "single";
+  plan?: string;
+}
+
 const SignupPage = () => {
   const [step, setStep] = React.useState<Step>("personality");
   const [formData, setFormData] = React.useState({
@@ -37,6 +44,7 @@ const SignupPage = () => {
     personalInfo: null as PersonalInfo | null,
     diningDates: [] as string[],
     diningPreferences: null as DiningPreferences | null,
+    pricingSelection: null as PricingSelection | null,
   });
 
   const handlePersonalityNext = (selection: number) => {
@@ -66,11 +74,16 @@ const SignupPage = () => {
 
   const handlePreferencesNext = (preferences: DiningPreferences) => {
     setFormData((prev) => ({ ...prev, diningPreferences: preferences }));
+    setStep("pricing");
+  };
+
+  const handlePricingNext = (selection: PricingSelection) => {
+    setFormData((prev) => ({ ...prev, pricingSelection: selection }));
     console.log("Complete signup data:", {
       ...formData,
-      diningPreferences: preferences,
+      pricingSelection: selection,
     });
-    // Handle final form submission
+    // Handle payment processing and final submission
   };
 
   return (
@@ -89,6 +102,7 @@ const SignupPage = () => {
       {step === "preferences" && (
         <DiningPreferences onNext={handlePreferencesNext} />
       )}
+      {step === "pricing" && <PricingPlans onNext={handlePricingNext} />}
     </div>
   );
 };
