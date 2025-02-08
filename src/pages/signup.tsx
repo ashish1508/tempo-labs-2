@@ -3,8 +3,16 @@ import PersonalityForm from "@/components/signup/PersonalityForm";
 import LocationSelect from "@/components/signup/LocationSelect";
 import AreaSelect from "@/components/signup/AreaSelect";
 import PersonalInfoForm from "@/components/signup/PersonalInfoForm";
+import DiningDateSelect from "@/components/signup/DiningDateSelect";
+import DiningPreferences from "@/components/signup/DiningPreferences";
 
-type Step = "personality" | "location" | "areas" | "personal";
+type Step =
+  | "personality"
+  | "location"
+  | "areas"
+  | "personal"
+  | "dates"
+  | "preferences";
 
 interface PersonalInfo {
   name: string;
@@ -14,6 +22,12 @@ interface PersonalInfo {
   profession: string;
 }
 
+interface DiningPreferences {
+  languages: string[];
+  budget: string;
+  dietaryPreferences: string;
+}
+
 const SignupPage = () => {
   const [step, setStep] = React.useState<Step>("personality");
   const [formData, setFormData] = React.useState({
@@ -21,6 +35,8 @@ const SignupPage = () => {
     location: "",
     areas: [] as string[],
     personalInfo: null as PersonalInfo | null,
+    diningDates: [] as string[],
+    diningPreferences: null as DiningPreferences | null,
   });
 
   const handlePersonalityNext = (selection: number) => {
@@ -40,8 +56,21 @@ const SignupPage = () => {
 
   const handlePersonalInfoNext = (personalInfo: PersonalInfo) => {
     setFormData((prev) => ({ ...prev, personalInfo }));
-    console.log("Final form data:", { ...formData, personalInfo });
-    // Will handle form submission and navigation to next step
+    setStep("dates");
+  };
+
+  const handleDatesNext = (dates: string[]) => {
+    setFormData((prev) => ({ ...prev, diningDates: dates }));
+    setStep("preferences");
+  };
+
+  const handlePreferencesNext = (preferences: DiningPreferences) => {
+    setFormData((prev) => ({ ...prev, diningPreferences: preferences }));
+    console.log("Complete signup data:", {
+      ...formData,
+      diningPreferences: preferences,
+    });
+    // Handle final form submission
   };
 
   return (
@@ -55,6 +84,10 @@ const SignupPage = () => {
       )}
       {step === "personal" && (
         <PersonalInfoForm onNext={handlePersonalInfoNext} />
+      )}
+      {step === "dates" && <DiningDateSelect onNext={handleDatesNext} />}
+      {step === "preferences" && (
+        <DiningPreferences onNext={handlePreferencesNext} />
       )}
     </div>
   );
