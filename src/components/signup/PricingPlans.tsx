@@ -256,7 +256,10 @@ const PricingPlans = ({ onNext }: PricingPlansProps) => {
           transition={{ duration: 0.3 }}
         >
           <Button
-            onClick={handleSubmit}
+            onClick={() => {
+              handleSubmit();
+              navigate("/dashboard");
+            }}
             disabled={!isValid}
             className="w-full bg-[#F72585] hover:bg-[#F72585]/90 text-white text-lg py-6
               border-4 border-[#2D3047] shadow-[8px_8px_0px_0px_rgba(45,48,71,1)]
