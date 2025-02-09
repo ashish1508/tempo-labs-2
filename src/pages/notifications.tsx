@@ -45,45 +45,46 @@ const NotificationsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFEDD5] pb-20">
-      <header className="bg-[#2D3047] text-white py-6 px-4">
-        <h1 className="text-2xl font-bold font-mono">Notifications</h1>
-      </header>
+    <div className="min-h-screen bg-[#FFEDD5] pb-20 flex justify-center">
+      <div className="w-full max-w-md">
+        <header className="bg-[#2D3047] text-white py-6 px-4">
+          <h1 className="text-2xl font-bold font-mono">Notifications</h1>
+        </header>
 
-      <div className="p-4 space-y-4">
-        {notifications.map((notification) => (
-          <motion.div
-            key={notification.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`bg-white p-4 rounded-lg border-2 border-[#2D3047] ${!notification.isRead ? "shadow-[4px_4px_0px_0px_rgba(45,48,71,1)]" : ""}`}
-          >
-            <div className="flex gap-4">
-              <div
-                className={`p-2 rounded-full ${!notification.isRead ? "bg-[#F72585]/10" : "bg-[#2D3047]/5"}`}
-              >
-                {getIcon(notification.type)}
-              </div>
-              <div className="flex-1">
-                <div className="flex justify-between items-start">
-                  <h3
-                    className={`font-mono ${!notification.isRead ? "font-bold" : ""}`}
-                  >
-                    {notification.title}
-                  </h3>
-                  <span className="text-xs text-[#2D3047]/70">
-                    {notification.time}
-                  </span>
+        <div className="p-4 space-y-4">
+          {notifications.map((notification) => (
+            <motion.div
+              key={notification.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`bg-white p-4 rounded-lg border-2 border-[#2D3047] ${!notification.isRead ? "shadow-[4px_4px_0px_0px_rgba(45,48,71,1)]" : ""}`}
+            >
+              <div className="flex gap-4">
+                <div
+                  className={`p-2 rounded-full ${!notification.isRead ? "bg-[#F72585]/10" : "bg-[#2D3047]/5"}`}
+                >
+                  {getIcon(notification.type)}
                 </div>
-                <p className="text-sm mt-1 text-[#2D3047]/80">
-                  {notification.message}
-                </p>
+                <div className="flex-1">
+                  <div className="flex justify-between items-start">
+                    <h3
+                      className={`font-mono ${!notification.isRead ? "font-bold" : ""}`}
+                    >
+                      {notification.title}
+                    </h3>
+                    <span className="text-xs text-[#2D3047]/70">
+                      {notification.time}
+                    </span>
+                  </div>
+                  <p className="text-sm mt-1 text-[#2D3047]/80">
+                    {notification.message}
+                  </p>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
-
       <BottomNav />
     </div>
   );
